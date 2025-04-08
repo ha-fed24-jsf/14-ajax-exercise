@@ -1,11 +1,28 @@
 import { useState } from "react"
 import { getCitySuntimes, getSchoolSuntimes } from "../data/api"
+import './Sunrise.css'
 
 const Sunrise = () => {
 	const [schoolTimes, setSchoolTimes] = useState(null)
 	const [cityTimes, setCityTimes] = useState(null)
-	const [city, setCity] = useState('Haparanda')
+	const [city, setCity] = useState('')
+	const [cityTouched, setCityTouched] = useState(false)
 
+	let cityIsValid = true
+	let cityErrorMessage = ''
+	let cityCss = 'form'
+	if( city.length < 1 || city.length > 85 ) {
+		cityIsValid = false
+		if( cityTouched ) {
+			cityErrorMessage = 'Fyll i mellan 1 och 85 bokstäver.'
+			cityCss += ' error'
+		}
+	}
+	const handleCityChange = event => {
+		setCity(event.target.value)
+		setCityTouched(true)	
+	}
+	
 	const handleGetSchool = () => {
 		getSchoolSuntimes(setSchoolTimes)
 	}
@@ -28,13 +45,18 @@ const Sunrise = () => {
 			<hr />
 
 			<h2> Geocoding </h2>
-			<p> Skriv namnet på en stad: 
+			<section className={cityCss}>
+				<label> Skriv namnet på en stad </label>
 				<input type="text" 
 					value={city}
-					onChange={event => setCity(event.target.value)}
+					onChange={handleCityChange}
 					/>
-				<button onClick={handleGetCity}> Men den här staden då? </button>
-			</p>
+				<p className="message"> {cityErrorMessage} </p>
+				<button
+					onClick={handleGetCity}
+					disabled={!cityIsValid}
+					> Men den här staden då? </button>
+			</section>
 			<section>
 				{cityTimes ? (
 					<p> I "{cityTimes.city}" gick solen upp kl ... idag och förväntas gå ner kl .... </p>

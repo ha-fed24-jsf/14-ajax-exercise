@@ -1,0 +1,28 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	margin: 0.5em;
+	padding: 1em;
+	border: 1px solid black;
+	/* gap: 1em; */
+
+	label {
+		font-weight: bold;
+	}
+
+	input {
+		padding: 1.0em;
+	}
+	button {
+		padding: 0.5em;
+	}
+
+	&.error {
+		input {
+			border-color: rgb(179, 25, 54);
+		}
+		.message {
+			color: rgb(179, 25, 54);
+		}
+	}
+}
