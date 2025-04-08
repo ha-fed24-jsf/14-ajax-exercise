@@ -1,0 +1,1 @@
+// skolan ligger på latitud=57.6731597 och longitud=11.8787299
